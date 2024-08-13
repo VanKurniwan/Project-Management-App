@@ -21,7 +21,7 @@
                 </a>
 
                 {{-- Tombol ADD + --}}
-                <button id="defaultModalButton" data-modal-target="defaultModal" data-modal-toggle="defaultModal"
+                <button id="createModalButton" data-modal-target="createModal" data-modal-toggle="createModal"
                     class="block text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-3 lg:px-4 py-2.5 mr-2 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
                     type="button">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18"

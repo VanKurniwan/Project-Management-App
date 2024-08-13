@@ -9,6 +9,7 @@
                     {{ $title }}
                 </h2>
             </div>
+
             <article
                 class="mx-auto w-full max-w-4xl format format-sm sm:format-base lg:format-lg format-blue dark:format-invert">
 
@@ -39,6 +40,7 @@
                     <pre>{{ $project->description }}</pre>
                 </p>
             </article>
+
         </div>
     </main>
 

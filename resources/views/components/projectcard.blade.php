@@ -32,8 +32,8 @@
 
             {{-- Action Button --}}
             <div class="flex items-center justify-end gap-1">
-                <a href="/updateproject/{{ $data->slug }}" id="updateprojectbtn">
-                    <button type="button" data-tooltip-target="tooltip-quick-look"
+                <a href="/editdetail/{{ $data->slug }}" id="updateprojectbtn">
+                    <button type="button"
                         class="rounded-lg p-2 text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
                         <span class="sr-only">
                             Edit
@@ -48,7 +48,7 @@
                 </a>
 
                 <a href="/deleteproject/{{ $data->slug }}" class="deleteprojectbtn">
-                    <button type="button" data-tooltip-target="tooltip-add-to-favorites"
+                    <button type="button"
                         class="rounded-lg p-2 text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
                         <span class="sr-only">
                             Delete

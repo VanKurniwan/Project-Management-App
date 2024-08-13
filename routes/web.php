@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [Main::class, 'indexpage']);
 Route::get('/all', [Main::class, 'allpage']);
 Route::get('/projectdetail/{project:slug}', [Main::class, 'projectdetailpage']);
+Route::get('/editdetail/{project:slug}', [Main::class, 'projecteditpage']);
 
 // handling post form
 Route::post('/createproject', [Main::class, 'createproject']);

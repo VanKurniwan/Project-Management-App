@@ -37,7 +37,7 @@
 <script type="text/javascript">
     // modal add project
     document.addEventListener("DOMContentLoaded", function(event) {
-        document.getElementById('defaultModalButton').click();
+        document.getElementById('createModalButton').click();
     });
 
     // sweet alert - create project

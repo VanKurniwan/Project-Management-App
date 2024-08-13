@@ -75,6 +75,15 @@ class Main extends Controller
         ]);
     }
 
+    public function projecteditpage(Project $project)
+    {
+        return view('editproject', [
+            'title' => 'Edit Project ✏️',
+            'project' => $project,
+            'count' => Project::countAll()
+        ]);
+    }
+
     // CRUD
 
     public function createproject(Request $request)
