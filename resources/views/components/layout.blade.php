@@ -56,6 +56,21 @@
         });
     });
 
+    document.getElementById('editprojectbtn').addEventListener('click', function(event) {
+        event.preventDefault();
+        Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "Your project has been updated",
+            color: '#ffff',
+            background: '#1f2937',
+            showConfirmButton: false,
+            timer: 1500
+        }).then(() => {
+            document.getElementById('editprojectform').submit();
+        });
+    });
+
     // sweet alert - hapus project
     document.querySelectorAll('.deleteprojectbtn').forEach(function(button) {
         button.addEventListener('click', function(event) {

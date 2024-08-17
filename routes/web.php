@@ -11,6 +11,7 @@ Route::get('/editdetail/{project:slug}', [Main::class, 'projecteditpage']);
 
 // handling post form
 Route::post('/createproject', [Main::class, 'createproject']);
+Route::post('/updateproject/{project:slug}', [Main::class, 'updateproject']);
 
 // handling action
 Route::get('/deleteproject/{project:slug}', [Main::class, 'deleteproject']);

@@ -1,85 +1,149 @@
 <x-layout>
 
-    {{-- mengirim variable count ke layout --}}
     <x-slot:count>{{ $count }}</x-slot:count>
 
     <main class="pt-8 pb-16 lg:pt-16 lg:pb-24 bg-white dark:bg-gray-900 antialiased">
         <div class="mx-auto max-w-4xl px-4 2xl:px-0">
             <div class="mb-4 items-end justify-between space-y-4 sm:flex sm:space-y-0 md:mb-8">
                 <h2 class="mt-3 text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">
-                    {{ $title }}
+                    {{ $title . ' "' . $project->title . '"' }}
                 </h2>
             </div>
 
             <section class="bg-white dark:bg-gray-900">
                 <div class="max-w-4xl px-4 pb-4 mx-auto">
                     <h2 class="mb-4 text-xl font-bold text-gray-900 dark:text-white">Update product</h2>
-                    <form action="#">
-                        <div class="grid gap-4 mb-4 sm:grid-cols-2 sm:gap-6 sm:mb-5">
-                            <div class="sm:col-span-2">
-                                <label for="name"
-                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Product
-                                    Name</label>
-                                <input type="text" name="name" id="name"
+                    <form method="POST" enctype="multipart/form-data" action="/updateproject/{{ $project->slug }}"
+                        id="editprojectform">
+                        @csrf
+                        <div class="grid gap-4 mb-4 sm:grid-cols-6 sm:gap-6 sm:mb-5">
+                            <div class="sm:col-span-5">
+                                <label for="title"
+                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                    Project Title
+                                </label>
+                                <input type="text" name="title" id="title"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                    value="Apple iMac 27&ldquo;" placeholder="Type product name" required="">
+                                    value="{{ $project->title }}" placeholder="Type Project Title">
                             </div>
-                            <div class="w-full">
-                                <label for="brand"
-                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Brand</label>
-                                <input type="text" name="brand" id="brand"
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                    value="Apple" placeholder="Product brand" required="">
-                            </div>
-                            <div class="w-full">
-                                <label for="price"
-                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Price</label>
-                                <input type="number" name="price" id="price"
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                    value="2999" placeholder="$299" required="">
-                            </div>
-                            <div>
-                                <label for="category"
-                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Category</label>
-                                <select id="category"
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                                    <option selected="">Electronics</option>
-                                    <option value="TV">TV/Monitors</option>
-                                    <option value="PC">PC</option>
-                                    <option value="GA">Gaming/Console</option>
-                                    <option value="PH">Phones</option>
+                            <div class="sm:col-span-1">
+                                <label for="priorityrank"
+                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                    Priority Rank
+                                </label>
+                                <select id="priorityrank" name="priorityrank"
+                                    class="text-center bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                                    @if ($count > 0)
+                                        @for ($i = 1; $i <= $count; $i++)
+                                            @if ($i == $project->priorityrank)
+                                                <option value="{{ $i }}" selected="">{{ $i }}
+                                                </option>
+                                            @else
+                                                <option value="{{ $i }}">{{ $i }}</option>
+                                            @endif
+                                        @endfor
+                                        <option value="{{ $count + 1 }}">{{ $count + 1 }}</option>
+                                    @else
+                                        <option value="1" selected="">1</option>
+                                    @endif
                                 </select>
                             </div>
-                            <div>
-                                <label for="item-weight"
-                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Item
-                                    Weight (kg)</label>
-                                <input type="number" name="item-weight" id="item-weight"
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                    value="15" placeholder="Ex. 12" required="">
+                            <div class="sm:col-span-3">
+                                <label for="status"
+                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                    Status
+                                </label>
+                                <select id="status" name="status"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                                    <option selected="" value="{{ $project->status->id }}" hidden>
+                                        {{ $project->status->name }}
+                                    </option>
+                                    <option value="1">Planned</option>
+                                    <option value="2">WIP</option>
+                                    <option value="3">Done</option>
+                                </select>
                             </div>
-                            <div class="sm:col-span-2">
+                            <div class="sm:col-span-3">
+                                <label for="difficulty"
+                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                    Difficulty
+                                </label>
+                                <select id="difficulty" name="difficulty"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                                    <option selected="" value="{{ $project->difficulty->id }}" hidden>
+                                        {{ $project->difficulty->name }}
+                                    </option>
+                                    <option value="1">Easy</option>
+                                    <option value="2">Medium</option>
+                                    <option value="3">Hard</option>
+                                </select>
+                            </div>
+
+                            <div class="sm:col-span-6">
+                                <div class="flex justify-between">
+                                    <label for="techstack"
+                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                        Technology Stack
+                                    </label>
+                                    <label for="techstack"
+                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-slate-300">
+                                        Example : html, css, javascript
+                                    </label>
+                                </div>
+                                <input type="text" name="techstack" id="techstack"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                    placeholder="Type with lowercase separated by coma (,)"
+                                    value="{{ $project->techstack }}" required="">
+                            </div>
+
+                            <div class="sm:col-span-6">
+                                <label for="gitrepositorylink"
+                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                    Git Repository Link
+                                </label>
+                                <input type="url" name="gitrepo" id="gitrepositorylink"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                    placeholder="Paste Git Repository Link here"
+                                    value="{{ $project->gitrepo == 'empty' ? '' : $project->gitrepo }}">
+                            </div>
+
+                            <div class="sm:col-span-6">
+                                <div class="flex justify-between">
+                                    <label for="projecticon"
+                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                        Upload Project Icon
+                                    </label>
+                                    <label for="projecticon"
+                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-slate-300">
+                                        Recommended icon is SVG
+                                    </label>
+                                </div>
+                                <input type="file" name="icon" id="projecticon"
+                                    class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                                    accept="image/*, svg" placeholder="Upload Project Icon (Optional)">
+                            </div>
+
+                            <div class="sm:col-span-6">
                                 <label for="description"
-                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
-                                <textarea id="description" rows="8"
+                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                    Description
+                                </label>
+                                <textarea id="description" rows="4" name="description"
                                     class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                    placeholder="Write a product description here...">Standard glass, 3.8GHz 8-core 10th-generation Intel Core i7 processor, Turbo Boost up to 5.0GHz, 16GB 2666MHz DDR4 memory, Radeon Pro 5500 XT with 8GB of GDDR6 memory, 256GB SSD storage, Gigabit Ethernet, Magic Mouse 2, Magic Keyboard - US</textarea>
+                                    placeholder="Type project description here" required="">{{ $project->description }}
+                                </textarea>
                             </div>
                         </div>
-                        <div class="flex items-center space-x-4">
-                            <button type="submit"
-                                class="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
-                                Update product
-                            </button>
-                            <button type="button"
-                                class="text-red-600 inline-flex items-center hover:text-white border border-red-600 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900">
-                                <svg class="w-5 h-5 mr-1 -ml-1" fill="currentColor" viewBox="0 0 20 20"
+                        <div class="flex flex-row justify-center items-center">
+                            <button type="submit" id="editprojectbtn"
+                                class="text-white inline-flex items-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+                                <svg class="mr-1 -ml-1 w-6 h-6" fill="currentColor" viewBox="0 0 20 20"
                                     xmlns="http://www.w3.org/2000/svg">
                                     <path fill-rule="evenodd"
-                                        d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
+                                        d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
                                         clip-rule="evenodd"></path>
                                 </svg>
-                                Delete
+                                Update Project
                             </button>
                         </div>
                     </form>
